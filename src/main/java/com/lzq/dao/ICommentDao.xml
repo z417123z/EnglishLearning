@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzq.dao.ICommentDao">
+    <resultMap id="commentMap" type="com.lzq.domain.Comment">
+        <id column="id" property="id"/>
+        <result column="adminId" property="adminId"/>
+        <result column="userId" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="aDate" property="aDate"/>
+        <result column="showCon" property="showCon"/>
+        <result column="user_name" property="user_name"/>
+        <result column="user_username" property="user_username"/>
+        <result column="admin_name" property="admin_name"/>
+
+    </resultMap>
+
+
+    <sql id="commSql">
+        select
+        t2.name as user_name,
+        t2.username as user_username,
+        t2.id as userId,
+        t3.name as admin_name,
+        t3.id as adminId,
+        t1.userId, t1.adminId, t1.id, t1.content, t1.aDate, t1.showCon
+         from
+         t_comment as t1
+         left join t_user as t2 on t2.id=t1.userId
+         left join t_admin as t3 on t3.id=t1.adminId
+    </sql>
+    <!--总表-->
+    <select id="query" resultMap="commentMap">
+        <include refid="commSql"></include>
+    </select>
+    <!--管理员看的表-->
+    <select id="queryAllUserComment" resultMap="commentMap" >
+        <include refid="commSql"></include>
+        where 1 = 1
+        and t1.showCon=1
+    </select>
+    <!--用户看的表-->
+    <select id="queryUserComment" resultMap="commentMap">
+        <include refid="commSql"></include>
+        where 1 = 1
+        and t1.showCon=1
+        and userId=#{id}
+    </select>
+    <!--内容查询-->
+    <select id="queryByContent" resultMap="commentMap">
+        <include refid="commSql"></include>
+        where t1.content like #{param1}
+    </select>
+
+    <select id="queryByUserContent" resultMap="commentMap">
+        <include refid="commSql"></include>
+        where (t1.content like #{param1})
+        and t1.showCon=1
+        and t1.userId=#{param2}
+    </select>
+
+    <select id="queryCommentById" parameterType="int" resultMap="commentMap">
+        <include refid="commSql"></include>
+        where t3.id = #{id}
+    </select>
+
+    <insert id="insertComment" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.lzq.domain.Comment">
+        insert into t_comment(userId, adminId, content, aDate, showCon) values
+        (#{userId},#{adminId},#{content},CURRENT_DATE(), 1)
+    </insert>
+
+    <update id="updateComment" parameterType="com.lzq.domain.Comment">
+        update t_comment set
+        content=#{content},aDate=CURRENT_DATE(),
+        where id=#{id}
+    </update>
+
+    <delete id="deleteComment" parameterType="int">
+        delete from t_comment where id=#{id}
+    </delete>
+
+    <delete id="deleteByUserId" parameterType="int">
+        delete from t_comment where userId=#{id}
+    </delete>
+
+    <update id="deleteUserComment" parameterType="int">
+        update t_comment set showCon=0 where id=#{id}
+    </update>
+
+    <update id="showUserComment" parameterType="int">
+        update t_comment set showCon=1 where id=#{id}
+    </update>
+
+
+</mapper>

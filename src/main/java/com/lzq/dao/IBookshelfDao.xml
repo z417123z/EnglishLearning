@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzq.dao.IBookshelfDao">
+    <resultMap id="bookshelfMap" type="com.lzq.domain.Bookshelf">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="bookId" property="bookId"/>
+        <result column="wordList" property="wordList"/>
+    </resultMap>
+
+    <insert id="add" parameterType="int">
+        insert into t_bookshelf (bookId, userId)
+        value (#{bookId},#{userId})
+    </insert>
+
+    <delete id="deleteByUser">
+        delete from t_bookshelf where userId= #{userId}
+    </delete>
+
+    <delete id="deleteById">
+        delete from t_bookshelf where userId= #{userId} and bookId=#{bookId}
+    </delete>
+
+
+    <delete id="deleteByBookId">
+        delete from t_bookshelf where bookId= #{bookId}
+    </delete>
+
+    <update id="updateWordList" parameterType="com.lzq.domain.Bookshelf">
+        update t_bookshelf set wordList=#{wordList}
+        where userId=#{userId} and bookId=#{bookId}
+    </update>
+
+    <select id="queryAll" resultMap="bookshelfMap">
+        select * from t_bookshelf
+    </select>
+
+    <select id="queryWordList" resultMap="bookshelfMap">
+        select * from t_bookshelf
+        where 1=1 and
+        bookId=#{bookId} and userId=#{userId}
+    </select>
+
+    <select id="queryBookshelfByBookIdUserId" resultMap="bookshelfMap">
+        select * from t_bookshelf
+        where bookId=#{bookId}
+        and userId=#{userId}
+    </select>
+</mapper>

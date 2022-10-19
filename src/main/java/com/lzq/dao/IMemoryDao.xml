@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzq.dao.IMemoryDao">
+    <resultMap id="memoMap" type="com.lzq.domain.Memory">
+        <id column="id" property="id"/>
+        <result column="userId" property="userId"/>
+        <result column="wordId" property="wordId"/>
+    </resultMap>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.lzq.domain.Memory">
+        insert into t_memory(userId, wordId) values(#{userId}, #{wordId})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from t_memory where userId=#{userId} and wordId=#{wordId}
+    </delete>
+
+    <delete id="deleteByUserId" parameterType="int">
+        delete from t_memory where userId=#{userId}
+    </delete>
+
+    <delete id="deleteByWordId" parameterType="int">
+        delete from t_memory where wordId=#{wordId}
+    </delete>
+    <select id="query" resultMap="memoMap" parameterType="java.util.Map">
+        select * from t_memory
+    </select>
+    <select id="queryByUserIdWordId" resultMap="memoMap" parameterType="java.util.Map">
+        select * from t_memory where userId=#{userId} and wordId=#{wordId}
+    </select>
+</mapper>

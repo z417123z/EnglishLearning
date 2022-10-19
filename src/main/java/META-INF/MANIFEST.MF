@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Main-Class: 
+Class-Path: spring-jcl-5.0.2.RELEASE.jar spring-test-5.0.2.RELEASE.jar j
+ stl-1.2.jar spring-context-5.0.2.RELEASE.jar spring-aop-5.0.2.RELEASE.j
+ ar hamcrest-core-1.3.jar commons-fileupload-1.3.1.jar spring-core-5.0.2
+ .RELEASE.jar jackson-annotations-2.9.5.jar aspectjweaver-1.6.8.jar jack
+ son-core-2.9.5.jar mybatis-3.4.5.jar spring-expression-5.0.2.RELEASE.ja
+ r spring-webmvc-5.0.2.RELEASE.jar pager-taglib-2.0.jar spring-web-5.0.2
+ .RELEASE.jar protobuf-java-2.6.0.jar commons-io-2.4.jar log4j-1.2.12.ja
+ r junit-4.12.jar jackson-module-jaxb-annotations-2.9.5.jar jackson-data
+ bind-2.9.5.jar spring-beans-5.0.2.RELEASE.jar pagehelper-5.1.2.jar myba
+ tis-spring-1.3.0.jar slf4j-api-1.6.6.jar jsqlparser-1.0.jar mysql-conne
+ ctor-java-8.0.11.jar c3p0-0.9.1.2.jar slf4j-log4j12-1.6.6.jar spring-tx
+ -5.0.2.RELEASE.jar spring-jdbc-5.0.2.RELEASE.jar
+

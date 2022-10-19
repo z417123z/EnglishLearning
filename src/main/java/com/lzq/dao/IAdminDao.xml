@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lzq.dao.IAdminDao">
+    <resultMap id="adminMap" type="com.lzq.domain.Admin">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="tel" property="tel"/>
+        <result column="type" property="type"/>
+    </resultMap>
+    
+    <sql id="Where_Clause">
+        <where>
+            <if test="id!=null and id!=0">and id= #{id}</if>
+            <if test="username!=null and username!=''">and username=#{username}</if>
+            <if test="password!=null and password!=''">and password=#{password}</if>
+        </where>
+    </sql>
+
+    <select id="query" parameterType="java.util.Map"
+            resultMap="adminMap">
+        select * from t_admin
+        <include refid="Where_Clause" />
+        <if test="page">limit #{offset} ,#{pageSize}</if>
+    </select>
+    <select id="getCount" parameterType="java.util.Map"
+            resultType="Int">
+        select count(0) from t_admin
+        <include refid="Where_Clause" />
+    </select>
+    <select id="queryAdminById" parameterType="int"
+            resultMap="adminMap">
+		select * from t_admin where id=${value}
+	</select>
+    <insert id="insertAdmin" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.lzq.domain.Admin">
+		insert into t_admin (username,password,name,tel,type) values
+		(#{username},#{password},#{name},#{tel},#{type});
+	</insert>
+    <update id="updateAdmin" parameterType="com.lzq.domain.Admin">
+		update t_admin set
+		username=#{username},password=#{password},name=#{name},tel=#{tel},type=#{type} where
+		id=#{id}
+	</update>
+    <delete id="deleteAdmin" parameterType="int">
+		delete from t_admin where id=${value}
+	</delete>
+
+</mapper>
